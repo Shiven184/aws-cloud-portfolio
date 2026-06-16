@@ -1,0 +1,44 @@
+name: Deploy Portfolio Website
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'website/**'
+      - '.github/workflows/deploy.yml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Sync Assets to S3
+        run: |
+          # Syncs everything except index.html with a long cache expiration
+          aws s3 sync website/ s3://my-portfolio-site-485141928127-website/ \
+            --delete \
+            --exclude "index.html" \
+            --cache-control "max-age=31536000,public"
+
+      - name: Sync index.html to S3
+        run: |
+          # Uploads index.html with no-cache so browsers always fetch the latest version
+          aws s3 cp website/index.html s3://my-portfolio-site-485141928127-website/index.html \
+            --cache-control "no-cache, no-store, must-revalidate"
+
+      - name: Invalidate CloudFront Cache
+        run: |
+          # Forces edge locations to pull the fresh files
+          aws cloudfront create-invalidation \
+            --distribution-id EENEBO5IZ968V \
+            --paths "/*"
