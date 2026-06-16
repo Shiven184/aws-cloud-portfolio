@@ -26,7 +26,6 @@ jobs:
         run: |
           # Syncs everything except index.html with a long cache expiration
           aws s3 sync website/ s3://my-portfolio-site-485141928127-website/ \
-            --delete \
             --exclude "index.html" \
             --cache-control "max-age=31536000,public"
 

@@ -616,6 +616,7 @@
     <p>Hosted on <a href="https://aws.amazon.com/cloudfront/" target="_blank">AWS S3 + CloudFront</a> | Deployed via GitHub Actions + CloudFormation IaC | Built by Shiven Gandhi</p>
   </footer>
 
+  <!-- MODAL -->
   <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
     <div class="modal" id="modal-box">
       <div class="gallery" id="modal-gallery">
@@ -641,9 +642,10 @@
   </div>
 
   <script>
-    // S3/CloudFront base path for screenshots
-    const SCREENSHOTS_BASE = '/screenshots';
+    // Asset root location path (S3 / CloudFront Directory Mapping)
+    const SCREENSHOTS_BASE = '/Screenshots';
 
+    // Set 'count' below to match the exact number of images inside your subfolders
     const projects = {
       p1: {
         num:    'PROJECT 01',
@@ -652,7 +654,7 @@
         tags:   ['S3','CloudFront','ACM','OAC','CloudFormation','GitHub Actions'],
         github: 'https://github.com/Shiven184/portfolio-website',
         folder: 'project-1-cloudfront',
-        count:  5,
+        count:  5, 
       },
       p2: {
         num:    'PROJECT 02',
