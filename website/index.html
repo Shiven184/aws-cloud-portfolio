@@ -130,14 +130,14 @@
       border-bottom: 1px solid var(--border);
       flex-wrap: wrap;
     }
-    .stats .stat {
+    .stat {
       text-align: center;
       padding: 1.6rem 3rem;
       border-right: 1px solid var(--border);
     }
-    .stats .stat:last-child { border-right: none; }
-    .stats .stat .num { font-size: 1.8rem; font-weight: 700; color: var(--orange); }
-    .stats .stat .lbl { font-size: 0.78rem; color: var(--muted); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat:last-child { border-right: none; }
+    .stat .num { font-size: 1.8rem; font-weight: 700; color: var(--orange); }
+    .stat .lbl { font-size: 0.78rem; color: var(--muted); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
 
     /* SECTION */
     .section { max-width: 1200px; margin: 0 auto; padding: 5rem 2rem; }
@@ -352,6 +352,28 @@
       transition: background 0.2s;
     }
     .btn-github:hover { background: #1a252f; }
+    .btn-upload-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #f0f4f8;
+      color: var(--muted);
+      padding: 0.65rem 1.3rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+    }
+
+    /* SCREENSHOT UPLOAD GUIDE */
+    .upload-guide {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .upload-guide strong { color: var(--text); }
 
     /* CERT SECTION */
     .cert-section {
@@ -417,7 +439,7 @@
 
     @media (max-width: 640px) {
       nav ul { display: none; }
-      .stats .stat { padding: 1.2rem 1.5rem; }
+      .stat { padding: 1.2rem 1.5rem; }
       .modal-body { padding: 1.2rem; }
       .modal-actions { flex-direction: column; }
     }
@@ -630,14 +652,14 @@
         <p class="modal-desc" id="modal-desc"></p>
         <div class="modal-tags" id="modal-tags"></div>
         <div class="modal-actions" id="modal-actions"></div>
+        <div class="upload-guide" id="upload-guide"></div>
       </div>
     </div>
   </div>
 
   <script>
-    
-// 1. UPDATED TO RELATIVE PATH FOR LOCAL & PIPELINE TESTING
-    const SCREENSHOTS_BASE = './screenshots';
+    // Absolute S3/CloudFront base path for screenshots
+    const SCREENSHOTS_BASE = '/screenshots';
 
     const projects = {
       p1: {
@@ -647,7 +669,8 @@
         tags:   ['S3','CloudFront','ACM','OAC','CloudFormation','GitHub Actions'],
         github: 'https://github.com/Shiven184/portfolio-website',
         folder: 'project-1-cloudfront',
-        count:  5,
+        // 💡 ENTER THE EXACT FILENAMES YOU UPLOADED TO S3 HERE:
+        images: ['1.png', '2.png', '3.png', '4.png', '5.png']
       },
       p2: {
         num:    'PROJECT 02',
@@ -656,7 +679,8 @@
         tags:   ['Lambda','API Gateway','DynamoDB','SAM','Python 3.12','pytest','GitHub Actions'],
         github: 'https://github.com/Shiven184/serverless-task-api',
         folder: 'project-2-serverless-api',
-        count:  5,
+        // 💡 ENTER THE EXACT FILENAMES YOU UPLOADED TO S3 HERE:
+        images: ['1.png', '2.png', '3.png', '4.png', '5.png']
       },
       p3: {
         num:    'PROJECT 03',
@@ -665,7 +689,8 @@
         tags:   ['VPC','ALB','Auto Scaling','RDS MySQL 8.0','NAT Gateway','CloudFormation','cfn-lint'],
         github: 'https://github.com/Shiven184/ha-three-tier-webapp',
         folder: 'project-3-three-tier',
-        count:  5,
+        // 💡 ENTER THE EXACT FILENAMES YOU UPLOADED TO S3 HERE:
+        images: ['1.png', '2.png', '3.png', '4.png', '5.png']
       },
       p4: {
         num:    'PROJECT 04',
@@ -674,7 +699,8 @@
         tags:   ['CodePipeline','CodeBuild','Elastic Beanstalk','S3 Artifacts','Node.js 20','Rolling Deploy','GitHub Webhook'],
         github: 'https://github.com/Shiven184/cicd-pipeline',
         folder: 'project-4-cicd',
-        count:  5,
+        // 💡 ENTER THE EXACT FILENAMES YOU UPLOADED TO S3 HERE:
+        images: ['1.png', '2.png', '3.png', '4.png', '5.png']
       },
       p5: {
         num:    'PROJECT 05',
@@ -683,7 +709,8 @@
         tags:   ['Terraform','HCL','Modules','S3 Remote State','DynamoDB Locking','Dev/Prod Environments','GitHub Actions'],
         github: 'https://github.com/Shiven184/terraform-multi-env',
         folder: 'project-5-terraform',
-        count:  5,
+        // 💡 ENTER THE EXACT FILENAMES YOU UPLOADED TO S3 HERE:
+        images: ['1.png', '2.png', '3.png', '4.png', '5.png']
       },
       p6: {
         num:    'PROJECT 06',
@@ -692,7 +719,8 @@
         tags:   ['Lambda','Cost Explorer','SNS','EventBridge','CloudWatch','AWS Budgets','Python 3.12'],
         github: 'https://github.com/Shiven184/cloud-cost-optimizer',
         folder: 'project-6-cost-optimizer',
-        count:  5,
+        // 💡 ENTER THE EXACT FILENAMES YOU UPLOADED TO S3 HERE:
+        images: ['1.png', '2.png', '3.png', '4.png', '5.png']
       },
     };
 
@@ -724,29 +752,28 @@
       slidesEl.innerHTML = '';
       dotsEl.innerHTML   = '';
 
-      const images = [];
-      for (let i = 1; i <= p.count; i++) {
-        images.push(`${SCREENSHOTS_BASE}/${p.folder}/${i}.png`);
-      }
-      totalSlides = images.length;
+      totalSlides = p.images.length;
 
-      images.forEach((src, idx) => {
+      p.images.forEach((filename, idx) => {
+        const src = `${SCREENSHOTS_BASE}/${p.folder}/${filename}`;
         const slide = document.createElement('div');
         slide.className = 'gallery-slide';
 
         const img = document.createElement('img');
         img.alt = `${p.title} screenshot ${idx + 1}`;
         img.loading = 'lazy';
+        
         img.onerror = function() {
           this.parentElement.innerHTML = `
             <div class="gallery-placeholder">
               <div class="icon">📸</div>
               <p>Screenshot ${idx + 1}</p>
-              <p style="font-size:0.75rem;margin-top:4px">Missing folder asset: screenshots/${p.folder}/${idx+1}.png</p>
+              <p style="font-size:0.75rem;margin-top:4px;color:#ff9900">Missing asset in S3 bucket path:<br><code>screenshots/${p.folder}/${filename}</code></p>
             </div>
           `;
         };
         img.src = src;
+        
         slide.appendChild(img);
         slidesEl.appendChild(slide);
 
@@ -757,10 +784,10 @@
       });
 
       updateGallery();
-
-      // 2. THIS SECTION HAS BEEN UPDATED FOR YOUR NEW GIT WORKFLOW
       document.getElementById('upload-guide').innerHTML = `
-        <strong>Portfolio Note:</strong> All architecture screenshots are version-controlled in the GitHub repository and deployed automatically via the CI/CD pipeline.
+        <strong>S3 Direct Folder Tracking Active:</strong><br>
+        Bucket folder location: <code>screenshots/${p.folder}/</code><br>
+        To change file names, update the <code>images</code> array inside the script tags of your index.html file.
       `;
 
       document.getElementById('modal-overlay').classList.add('active');
@@ -807,7 +834,6 @@
       if (e.key === 'ArrowRight') nextSlide();
       if (e.key === 'ArrowLeft')  prevSlide();
     });
-
   </script>
 
 </body>
