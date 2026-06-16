@@ -130,14 +130,14 @@
       border-bottom: 1px solid var(--border);
       flex-wrap: wrap;
     }
-    .stat {
+    .stats .stat {
       text-align: center;
       padding: 1.6rem 3rem;
       border-right: 1px solid var(--border);
     }
-    .stat:last-child { border-right: none; }
-    .stat .num { font-size: 1.8rem; font-weight: 700; color: var(--orange); }
-    .stat .lbl { font-size: 0.78rem; color: var(--muted); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .stats .stat:last-child { border-right: none; }
+    .stats .stat .num { font-size: 1.8rem; font-weight: 700; color: var(--orange); }
+    .stats .stat .lbl { font-size: 0.78rem; color: var(--muted); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
 
     /* SECTION */
     .section { max-width: 1200px; margin: 0 auto; padding: 5rem 2rem; }
@@ -352,28 +352,6 @@
       transition: background 0.2s;
     }
     .btn-github:hover { background: #1a252f; }
-    .btn-upload-note {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: #f0f4f8;
-      color: var(--muted);
-      padding: 0.65rem 1.3rem;
-      border-radius: 6px;
-      font-size: 0.8rem;
-    }
-
-    /* SCREENSHOT UPLOAD GUIDE */
-    .upload-guide {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem 1.2rem;
-      margin-top: 1rem;
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-    .upload-guide strong { color: var(--text); }
 
     /* CERT SECTION */
     .cert-section {
@@ -439,7 +417,7 @@
 
     @media (max-width: 640px) {
       nav ul { display: none; }
-      .stat { padding: 1.2rem 1.5rem; }
+      .stats .stat { padding: 1.2rem 1.5rem; }
       .modal-body { padding: 1.2rem; }
       .modal-actions { flex-direction: column; }
     }
@@ -632,7 +610,6 @@
     <p>Hosted on <a href="https://aws.amazon.com/cloudfront/" target="_blank">AWS S3 + CloudFront</a> | Deployed via GitHub Actions + CloudFormation IaC | Built by Shiven Gandhi</p>
   </footer>
 
-  <!-- MODAL -->
   <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
     <div class="modal" id="modal-box">
       <div class="gallery" id="modal-gallery">
@@ -653,14 +630,12 @@
         <p class="modal-desc" id="modal-desc"></p>
         <div class="modal-tags" id="modal-tags"></div>
         <div class="modal-actions" id="modal-actions"></div>
-        <div class="upload-guide" id="upload-guide"></div>
       </div>
     </div>
   </div>
 
   <script>
     // S3/CloudFront base path for screenshots
-    // Images are served from the same CloudFront distribution at /screenshots/
     const SCREENSHOTS_BASE = '/screenshots';
 
     const projects = {
@@ -671,7 +646,8 @@
         tags:   ['S3','CloudFront','ACM','OAC','CloudFormation','GitHub Actions'],
         github: 'https://github.com/Shiven184/portfolio-website',
         folder: 'project-1-cloudfront',
-        count:  5,
+        // 💡 WRITE THE EXACT FILENAMES YOU UPLOADED TO S3 FOR THIS PROJECT HERE:
+        images: ['1.png', '2.png', '3.png', '4.png', '5.png']
       },
       p2: {
         num:    'PROJECT 02',
@@ -680,7 +656,7 @@
         tags:   ['Lambda','API Gateway','DynamoDB','SAM','Python 3.12','pytest','GitHub Actions'],
         github: 'https://github.com/Shiven184/serverless-task-api',
         folder: 'project-2-serverless-api',
-        count:  5,
+        images: ['1.png', '2.png', '3.png', '4.png', '5.png']
       },
       p3: {
         num:    'PROJECT 03',
@@ -689,7 +665,7 @@
         tags:   ['VPC','ALB','Auto Scaling','RDS MySQL 8.0','NAT Gateway','CloudFormation','cfn-lint'],
         github: 'https://github.com/Shiven184/ha-three-tier-webapp',
         folder: 'project-3-three-tier',
-        count:  5,
+        images: ['1.png', '2.png', '3.png', '4.png', '5.png']
       },
       p4: {
         num:    'PROJECT 04',
@@ -698,7 +674,7 @@
         tags:   ['CodePipeline','CodeBuild','Elastic Beanstalk','S3 Artifacts','Node.js 20','Rolling Deploy','GitHub Webhook'],
         github: 'https://github.com/Shiven184/cicd-pipeline',
         folder: 'project-4-cicd',
-        count:  5,
+        images: ['1.png', '2.png', '3.png', '4.png', '5.png']
       },
       p5: {
         num:    'PROJECT 05',
@@ -707,7 +683,7 @@
         tags:   ['Terraform','HCL','Modules','S3 Remote State','DynamoDB Locking','Dev/Prod Environments','GitHub Actions'],
         github: 'https://github.com/Shiven184/terraform-multi-env',
         folder: 'project-5-terraform',
-        count:  5,
+        images: ['1.png', '2.png', '3.png', '4.png', '5.png']
       },
       p6: {
         num:    'PROJECT 06',
@@ -716,7 +692,7 @@
         tags:   ['Lambda','Cost Explorer','SNS','EventBridge','CloudWatch','AWS Budgets','Python 3.12'],
         github: 'https://github.com/Shiven184/cloud-cost-optimizer',
         folder: 'project-6-cost-optimizer',
-        count:  5,
+        images: ['1.png', '2.png', '3.png', '4.png', '5.png']
       },
     };
 
@@ -748,14 +724,10 @@
       slidesEl.innerHTML = '';
       dotsEl.innerHTML   = '';
 
-      // Generate slides with real paths — images named 1.png to count.png
-      const images = [];
-      for (let i = 1; i <= p.count; i++) {
-        images.push(`${SCREENSHOTS_BASE}/${p.folder}/${i}.png`);
-      }
-      totalSlides = images.length;
+      totalSlides = p.images.length;
 
-      images.forEach((src, idx) => {
+      p.images.forEach((fileName, idx) => {
+        const src = `${SCREENSHOTS_BASE}/${p.folder}/${fileName}`;
         const slide = document.createElement('div');
         slide.className = 'gallery-slide';
 
@@ -767,7 +739,7 @@
             <div class="gallery-placeholder">
               <div class="icon">📸</div>
               <p>Screenshot ${idx + 1}</p>
-              <p style="font-size:0.75rem;margin-top:4px">Upload to S3: screenshots/${p.folder}/${idx+1}.png</p>
+              <p style="font-size:0.75rem;margin-top:4px;color:#ff9900">Missing image file: ${fileName}</p>
             </div>
           `;
         };
@@ -782,11 +754,6 @@
       });
 
       updateGallery();
-      document.getElementById('upload-guide').innerHTML = `
-        <strong>Upload screenshots to S3:</strong><br>
-        Bucket folder: <code>screenshots/${p.folder}/</code><br>
-        Name files: <code>1.png, 2.png, 3.png...</code> then run a CloudFront cache invalidation.
-      `;
 
       document.getElementById('modal-overlay').classList.add('active');
       document.body.style.overflow = 'hidden';
