@@ -635,7 +635,6 @@
   </div>
 
   <script>
-<script>
     // S3/CloudFront base path for screenshots
     const SCREENSHOTS_BASE = '/screenshots';
 
@@ -647,8 +646,8 @@
         tags:   ['S3','CloudFront','ACM','OAC','CloudFormation','GitHub Actions'],
         github: 'https://github.com/Shiven184/portfolio-website',
         folder: 'project-1-cloudfront',
-        // 💡 EXAMPLE: If you only have 2 images for this project, type their exact names here:
-        images: ['architecture-diagram.png', 'live-site-homepage.png']
+        // 💡 WRITE THE EXACT FILENAMES YOU UPLOADED TO S3 FOR THIS PROJECT HERE:
+        images: ['1.png', '2.png', '3.png', '4.png', '5.png']
       },
       p2: {
         num:    'PROJECT 02',
@@ -657,8 +656,7 @@
         tags:   ['Lambda','API Gateway','DynamoDB','SAM','Python 3.12','pytest','GitHub Actions'],
         github: 'https://github.com/Shiven184/serverless-task-api',
         folder: 'project-2-serverless-api',
-        // 💡 EXAMPLE: If this project has 3 images:
-        images: ['postman-test.jpg', 'dynamodb-schema.png', 'lambda-code.png']
+        images: ['1.png', '2.png', '3.png', '4.png', '5.png']
       },
       p3: {
         num:    'PROJECT 03',
@@ -666,9 +664,8 @@
         desc:   'Highly available architecture across 2 Availability Zones. Custom VPC with 6 subnets: public (ALB + NAT), private (EC2 Auto Scaling Group), and DB (RDS MySQL). Security groups enforce least privilege — each tier only accepts traffic from the tier directly above it. CPU-based target tracking auto-scales EC2 at 70% threshold.',
         tags:   ['VPC','ALB','Auto Scaling','RDS MySQL 8.0','NAT Gateway','CloudFormation','cfn-lint'],
         github: 'https://github.com/Shiven184/ha-three-tier-webapp',
-        folder: 'project-3-three-tier-app', // 😉 Fixed folder path alignment
-        // 💡 EXAMPLE: If this project has only 1 image:
-        images: ['vpc-architecture.png']
+        folder: 'project-3-three-tier',
+        images: ['1.png', '2.png', '3.png', '4.png', '5.png']
       },
       p4: {
         num:    'PROJECT 04',
@@ -676,8 +673,8 @@
         desc:   'Every git push to main triggers a GitHub webhook which starts AWS CodePipeline. CodeBuild runs buildspec.yml: installs Node.js 20, runs tests, packages the app. Elastic Beanstalk performs a rolling deployment so existing traffic is served while new instances spin up. Zero downtime achieved through the rolling update strategy.',
         tags:   ['CodePipeline','CodeBuild','Elastic Beanstalk','S3 Artifacts','Node.js 20','Rolling Deploy','GitHub Webhook'],
         github: 'https://github.com/Shiven184/cicd-pipeline',
-        folder: 'project-4-cicd-pipeline', // 😉 Fixed folder path alignment
-        images: ['pipeline-success.png', 'beanstalk-dashboard.png']
+        folder: 'project-4-cicd',
+        images: ['1.png', '2.png', '3.png', '4.png', '5.png']
       },
       p5: {
         num:    'PROJECT 05',
@@ -686,7 +683,7 @@
         tags:   ['Terraform','HCL','Modules','S3 Remote State','DynamoDB Locking','Dev/Prod Environments','GitHub Actions'],
         github: 'https://github.com/Shiven184/terraform-multi-env',
         folder: 'project-5-terraform',
-        images: ['terraform-plan.png']
+        images: ['1.png', '2.png', '3.png', '4.png', '5.png']
       },
       p6: {
         num:    'PROJECT 06',
@@ -695,11 +692,9 @@
         tags:   ['Lambda','Cost Explorer','SNS','EventBridge','CloudWatch','AWS Budgets','Python 3.12'],
         github: 'https://github.com/Shiven184/cloud-cost-optimizer',
         folder: 'project-6-cost-optimizer',
-        images: ['slack-alert.png', 'cost-explorer-chart.png']
+        images: ['1.png', '2.png', '3.png', '4.png', '5.png']
       },
     };
-
-    // ... (Keep the rest of your gallery navigation code exactly the same below this line!)
 
     let currentSlide = 0;
     let totalSlides  = 0;
