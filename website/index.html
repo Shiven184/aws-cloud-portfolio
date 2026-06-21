@@ -303,7 +303,6 @@
       border-color: rgba(255,153,0,0.25);
     }
 
-    /* ── Certification ── */
     #certifications { background: var(--bg-secondary); }
     .cert-card {
       display: flex; align-items: center; gap: 2rem;
@@ -319,7 +318,7 @@
     }
     .cert-badge-wrap {
       width: 110px; height: 110px; border-radius: 18px; flex-shrink: 0;
-      background: linear-gradient(135deg, rgba(255,153,0,0.1), rgba(255,153,0,0.03));
+      background: linear-gradient(135deg, rgba(255,153,0,0.12), rgba(255,153,0,0.03));
       border: 1px solid rgba(255,153,0,0.15);
       display: flex; align-items: center; justify-content: center;
       position: relative; overflow: hidden;
@@ -329,9 +328,8 @@
       width: 100%; height: 100%;
       background: radial-gradient(circle, rgba(255,153,0,0.08), transparent 70%);
     }
-    .cert-badge-wrap img {
-      width: 90px; height: 90px; object-fit: contain;
-      position: relative; z-index: 1;
+    .cert-badge-wrap svg {
+      width: 60px; height: 60px; position: relative; z-index: 1;
     }
     .cert-info { flex: 1; }
     .cert-label {
@@ -447,8 +445,8 @@
       overflow: hidden;
     }
     .modal-image-wrap img {
-      width: 100%; height: 100%; object-fit: cover;
-      display: block;
+      width: 100%; height: 100%; object-fit: contain;
+      display: block; background: #0a0f1a;
     }
     .modal-image-wrap .img-fallback {
       position: absolute; inset: 0;
@@ -578,7 +576,6 @@
       .hero-name { letter-spacing: -1px; }
       .cert-card { flex-direction: column; text-align: center; padding: 2rem; }
       .cert-badge-wrap { width: 100px; height: 100px; }
-      .cert-badge-wrap img { width: 80px; height: 80px; }
     }
     @media (max-width: 480px) {
       .about-stats { grid-template-columns: 1fr; }
@@ -694,7 +691,6 @@
     </div>
   </section>
 
-  <!-- Certification -->
   <section id="certifications">
     <div class="section-container">
       <div class="reveal">
@@ -704,7 +700,15 @@
       </div>
       <a href="https://www.credly.com/badges/d718e2b4-0486-4c21-972c-0be8ab2785c6/public_url" target="_blank" rel="noopener noreferrer" class="cert-card reveal reveal-delay-1">
         <div class="cert-badge-wrap">
-          <img src="https://images.credly.com/size/340x340/images/2d84e428-9078-49b6-a804-13c15383d0de/image.png" alt="AWS Solutions Architect Associate Badge">
+          <!-- Inline SVG badge icon — no external image needed, no hotlinking issues -->
+          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="45" stroke="#FF9900" stroke-width="2" opacity="0.3"/>
+            <circle cx="50" cy="50" r="35" stroke="#FF9900" stroke-width="1.5" opacity="0.15"/>
+            <path d="M50 20L55 35H71L58 44L63 59L50 50L37 59L42 44L29 35H45L50 20Z" fill="#FF9900" opacity="0.8"/>
+            <path d="M35 65L40 72H60L65 65" stroke="#FF9900" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+            <rect x="38" y="72" width="24" height="4" rx="2" fill="#FF9900" opacity="0.3"/>
+            <text x="50" y="90" text-anchor="middle" fill="#FF9900" font-size="7" font-weight="700" font-family="Inter, sans-serif" opacity="0.6">AWS</text>
+          </svg>
         </div>
         <div class="cert-info">
           <div class="cert-label">Amazon Web Services</div>
@@ -785,7 +789,6 @@
     <p>&copy; 2025 Shiven Gandhi — Built with <span>♥</span> and deployed on <span>AWS S3 + CloudFront</span></p>
   </footer>
 
-  <!-- Modal -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal" id="modal">
       <div class="modal-image-wrap" id="modalImageWrap">
@@ -817,10 +820,25 @@
   </div>
 
   <script>
-    
-    const BASE_URL = "d3857tjb3wyic9.cloudfront.net";
+    // ╔══════════════════════════════════════════════════════════════════╗
+    // ║  YOUR CLOUDFRONT DOMAIN                                        ║
+    // ║  This is prepended to every image path to form the full URL.   ║
+    // ║  No trailing slash needed.                                     ║
+    // ╚══════════════════════════════════════════════════════════════════╝
+    const BASE_URL = "https://d3857tjb3wyic9.cloudfront.net";
 
     // ── Project Data ──
+    // Image paths match your S3 folder structure:
+    //   Screenshots/project-1-cloudfront/1.png
+    //   Screenshots/project-2-serverless-api/2.png
+    //   etc.
+    //
+    // ⚠️  I can only see folder names for project-1 and project-2
+    //     clearly from your screenshot. If the other folder names
+    //     don't match, update the "image" values below to match
+    //     your exact S3 folder names.
+    //
+    //     To check: open each folder in S3 and note the exact name.
     const projects = [
       {
         id: 1,
@@ -829,7 +847,7 @@
         shortDesc: "Hosted a static website on S3 with CloudFront CDN, custom domain, and SSL.",
         fullDesc: "Deployed a fully static portfolio website on Amazon S3 with CloudFront as the CDN layer for low-latency global delivery. Configured a custom domain through Route 53 with SSL certificates from AWS Certificate Manager (ACM). Implemented proper S3 bucket policies, Origin Access Control (OAC) to restrict direct S3 access, and optimized CloudFront cache behaviors for performance and security.",
         tags: ["S3", "CloudFront", "Route 53", "ACM"],
-        image: "Screenshot/1.png",
+        image: "Screenshots/project-1-cloudfront/1.png",
         github: "https://github.com/Shiven184/aws-cloud-portfolio"
       },
       {
@@ -839,7 +857,7 @@
         shortDesc: "RESTful task management API built with Lambda, API Gateway, and DynamoDB.",
         fullDesc: "Built a fully serverless RESTful API for task management using AWS Lambda for compute, Amazon API Gateway for routing, and DynamoDB as the NoSQL database. Implemented CRUD operations with proper request validation, error handling, and CORS configuration. The entire backend runs without any servers to manage, scaling automatically with demand while keeping costs near zero for low traffic.",
         tags: ["Lambda", "API Gateway", "DynamoDB"],
-        image: "Screenshot/2.png",
+        image: "Screenshots/project-2-serverless-api/2.png",
         github: "https://github.com/Shiven184/serverless-task-api"
       },
       {
@@ -849,7 +867,7 @@
         shortDesc: "Multi-AZ web application with EC2, ALB, Auto Scaling, and RDS.",
         fullDesc: "Designed and deployed a highly available web application architecture spanning multiple Availability Zones. Used EC2 instances behind an Application Load Balancer (ALB) with Auto Scaling Groups to handle traffic spikes. Backed the application with a Multi-AZ RDS database for data durability. Configured proper security groups, target groups, and health checks to ensure seamless failover and minimal downtime.",
         tags: ["EC2", "ALB", "Auto Scaling", "RDS", "Multi-AZ"],
-        image: "Screenshot/3.png",
+        image: "Screenshots/project-3-ha-webapp/3.png",
         github: "https://github.com/Shiven184/ha-three-tier-webapp"
       },
       {
@@ -859,7 +877,7 @@
         shortDesc: "Automated build and deploy pipeline using AWS Code suite services.",
         fullDesc: "Built a complete CI/CD pipeline using AWS CodeCommit for source control, CodeBuild for automated testing and building, CodeDeploy for deployment to EC2 instances, and CodePipeline to orchestrate the entire workflow. Configured build specifications, deployment strategies (rolling updates), and notification triggers so that every code push automatically goes through build, test, and deploy stages without manual intervention.",
         tags: ["CodeCommit", "CodeBuild", "CodeDeploy", "CodePipeline"],
-        image: "Screenshot/4.png",
+        image: "Screenshots/project-4-cicd-pipeline/4.png",
         github: "https://github.com/Shiven184/cicd-pipeline"
       },
       {
@@ -869,7 +887,7 @@
         shortDesc: "IaC with Terraform provisioning VPC and EC2 across dev, staging, and prod.",
         fullDesc: "Implemented Infrastructure as Code using Terraform to provision complete AWS environments for development, staging, and production. Each environment includes its own VPC with public and private subnets, security groups, EC2 instances, and S3 buckets. Used an S3 backend for remote state management with state locking via DynamoDB. Structured the code with reusable modules, variables, and workspaces to keep environments consistent yet isolated.",
         tags: ["Terraform", "VPC", "EC2", "S3 Backend", "DynamoDB"],
-        image: "Screenshot/5.png",
+        image: "Screenshots/project-5-terraform-multi-env/5.png",
         github: "https://github.com/Shiven184/terraform-multi-env"
       },
       {
@@ -879,14 +897,13 @@
         shortDesc: "Automated cost monitoring and optimization with Cost Explorer, Budgets, and Lambda.",
         fullDesc: "Built an automated cloud cost monitoring and optimization system using AWS Cost Explorer APIs, Budgets for alerting thresholds, Lambda functions for analysis logic, and SNS for real-time notifications. The solution identifies idle resources, tracks spending anomalies against set budgets, and sends actionable alerts via email. Designed to help prevent bill shock and encourage cost-conscious architecture decisions across all projects.",
         tags: ["Cost Explorer", "Budgets", "Lambda", "SNS"],
-        image: "Screenshot/6.png",
+        image: "Screenshots/project-6-cost-optimizer/6.png",
         github: "https://github.com/Shiven184/cloud-cost-optimizer"
       }
     ];
 
     // ── Build full image URL ──
     function getImageUrl(path) {
-      if (!BASE_URL) return path;
       return BASE_URL.replace(/\/+$/, '') + '/' + path.replace(/^\/+/, '');
     }
 
@@ -960,6 +977,7 @@
       img.onerror = function() {
         modalImageWrap.classList.add('error');
         console.error('Image failed to load:', fullUrl);
+        console.info('Test this URL directly in your browser to verify the file exists.');
       };
 
       document.getElementById('modalTitle').textContent = p.title;
