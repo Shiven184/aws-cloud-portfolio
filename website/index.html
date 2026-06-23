@@ -114,16 +114,14 @@
       text-align: center;
     }
     #hero::before {
-      content: ''; position: absolute;
-      top: -15%; right: -10%;
+      content: ''; position: absolute; top: -15%; right: -10%;
       width: 700px; height: 700px;
       background: radial-gradient(circle, rgba(255,153,0,0.1) 0%, transparent 65%);
       border-radius: 50%; filter: blur(100px);
       animation: floatGlow 8s ease-in-out infinite;
     }
     #hero::after {
-      content: ''; position: absolute;
-      bottom: 5%; left: -8%;
+      content: ''; position: absolute; bottom: 5%; left: -8%;
       width: 500px; height: 500px;
       background: radial-gradient(circle, rgba(255,153,0,0.05) 0%, transparent 65%);
       border-radius: 50%; filter: blur(80px);
@@ -226,7 +224,6 @@
       0%, 100% { opacity: 1; height: 40px; }
       50% { opacity: 0.3; height: 20px; }
     }
-
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(24px); }
       to { opacity: 1; transform: translateY(0); }
@@ -328,18 +325,13 @@
       width: 100%; height: 100%;
       background: radial-gradient(circle, rgba(255,153,0,0.08), transparent 70%);
     }
-    .cert-badge-wrap svg {
-      width: 60px; height: 60px; position: relative; z-index: 1;
-    }
+    .cert-badge-wrap svg { width: 60px; height: 60px; position: relative; z-index: 1; }
     .cert-info { flex: 1; }
     .cert-label {
       font-size: 11px; font-weight: 600; letter-spacing: 2px;
       text-transform: uppercase; color: var(--aws-orange); margin-bottom: 6px;
     }
-    .cert-name {
-      font-size: 1.2rem; font-weight: 700; letter-spacing: -0.3px;
-      margin-bottom: 4px;
-    }
+    .cert-name { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 4px; }
     .cert-id { font-size: 13px; color: var(--text-muted); margin-bottom: 1rem; }
     .cert-verify {
       display: inline-flex; align-items: center; gap: 6px;
@@ -371,15 +363,12 @@
       box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 40px rgba(255,153,0,0.05);
     }
     .project-card:hover::before { opacity: 1; }
-
     .project-number {
       font-size: 4rem; font-weight: 900; line-height: 1;
       color: rgba(255,153,0,0.06); position: absolute;
-      top: 12px; right: 16px; pointer-events: none;
-      transition: color 0.35s;
+      top: 12px; right: 16px; pointer-events: none; transition: color 0.35s;
     }
     .project-card:hover .project-number { color: rgba(255,153,0,0.12); }
-
     .project-difficulty {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 4px 12px; border-radius: 100px;
@@ -389,7 +378,6 @@
     .diff-beginner { background: rgba(34,197,94,0.1); color: var(--green); border: 1px solid rgba(34,197,94,0.2); }
     .diff-intermediate { background: rgba(245,158,11,0.1); color: var(--yellow); border: 1px solid rgba(245,158,11,0.2); }
     .diff-advanced { background: rgba(239,68,68,0.1); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
-
     .project-title {
       font-size: 1.15rem; font-weight: 700; letter-spacing: -0.3px;
       margin-bottom: 0.5rem; line-height: 1.3;
@@ -405,7 +393,6 @@
       font-size: 11px; font-weight: 500; color: var(--text-muted);
     }
     .project-card:hover .project-tag { border-color: rgba(255,255,255,0.1); color: var(--text-secondary); }
-
     .project-click-hint {
       margin-top: 1.25rem; padding-top: 1rem;
       border-top: 1px solid var(--border-subtle);
@@ -425,44 +412,79 @@
       transition: all 0.3s ease;
     }
     .modal-overlay.open { opacity: 1; visibility: visible; }
-
     .modal {
       background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 20px; max-width: 720px; width: 100%;
+      border-radius: 20px; max-width: 760px; width: 100%;
       max-height: 90vh; overflow-y: auto;
       transform: translateY(20px) scale(0.97);
       transition: transform 0.3s ease;
       box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 60px rgba(255,153,0,0.05);
     }
     .modal-overlay.open .modal { transform: translateY(0) scale(1); }
-
     .modal::-webkit-scrollbar { width: 4px; }
     .modal::-webkit-scrollbar-thumb { background: var(--aws-orange); border-radius: 2px; }
 
-    .modal-image-wrap {
-      position: relative; width: 100%; height: 300px;
-      background: var(--bg-secondary); border-radius: 20px 20px 0 0;
-      overflow: hidden;
+    .carousel-wrap {
+      position: relative; width: 100%; height: 340px;
+      background: #080d18; border-radius: 20px 20px 0 0; overflow: hidden;
     }
-    .modal-image-wrap img {
-      width: 100%; height: 100%; object-fit: contain;
-      display: block; background: #0a0f1a;
+    .carousel-wrap img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: contain; padding: 16px;
+      opacity: 0; transition: opacity 0.35s ease; pointer-events: none;
     }
-    .modal-image-wrap .img-fallback {
+    .carousel-wrap img.active { opacity: 1; pointer-events: auto; }
+    .carousel-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1);
+      color: white; cursor: pointer; z-index: 10;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s; opacity: 0; backdrop-filter: blur(8px);
+    }
+    .carousel-wrap:hover .carousel-btn { opacity: 1; }
+    .carousel-btn:hover { background: rgba(255,153,0,0.3); border-color: rgba(255,153,0,0.5); }
+    .carousel-prev { left: 12px; }
+    .carousel-next { right: 12px; }
+    .carousel-btn:disabled {
+      opacity: 0.2 !important; cursor: default;
+      background: rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.05);
+    }
+    .carousel-dots {
+      position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 8px; z-index: 10;
+    }
+    .carousel-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.25); border: none;
+      cursor: pointer; padding: 0; transition: all 0.25s;
+    }
+    .carousel-dot.active { background: var(--aws-orange); width: 24px; border-radius: 4px; }
+    .carousel-counter {
+      position: absolute; top: 14px; right: 14px; z-index: 10;
+      padding: 4px 12px; border-radius: 100px;
+      background: rgba(0,0,0,0.5); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.7);
+      letter-spacing: 0.5px;
+    }
+    .carousel-fallback {
       position: absolute; inset: 0;
       display: none; flex-direction: column;
       align-items: center; justify-content: center; gap: 12px;
       color: var(--text-muted); font-size: 14px; padding: 1rem;
-      text-align: center;
+      text-align: center; z-index: 5;
     }
-    .modal-image-wrap .img-fallback svg { opacity: 0.3; }
-    .modal-image-wrap .img-fallback .debug-path {
+    .carousel-fallback svg { opacity: 0.3; }
+    .carousel-fallback .debug-path {
       font-size: 11px; color: var(--text-muted); opacity: 0.6;
-      word-break: break-all; max-width: 90%; margin-top: 4px;
-      font-family: monospace;
+      word-break: break-all; max-width: 90%; margin-top: 4px; font-family: monospace;
     }
-    .modal-image-wrap.error img { display: none; }
-    .modal-image-wrap.error .img-fallback { display: flex; }
+    .carousel-wrap.all-failed .carousel-fallback { display: flex; }
+    .carousel-wrap.all-failed img { display: none; }
+    .carousel-wrap.all-failed .carousel-btn,
+    .carousel-wrap.all-failed .carousel-dots,
+    .carousel-wrap.all-failed .carousel-counter { display: none; }
 
     .modal-body { padding: 2rem; }
     .modal-top {
@@ -478,10 +500,8 @@
       transition: all 0.2s; flex-shrink: 0;
     }
     .modal-close:hover {
-      background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.3);
-      color: var(--red);
+      background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.3); color: var(--red);
     }
-
     .modal-desc {
       color: var(--text-secondary); font-size: 15px; line-height: 1.8;
       font-weight: 300; margin-bottom: 1.5rem;
@@ -490,8 +510,7 @@
     .modal-tag {
       padding: 6px 14px; border-radius: 8px;
       background: rgba(255,153,0,0.08); border: 1px solid rgba(255,153,0,0.15);
-      font-size: 12px; font-weight: 600; color: var(--aws-orange);
-      letter-spacing: 0.3px;
+      font-size: 12px; font-weight: 600; color: var(--aws-orange); letter-spacing: 0.3px;
     }
     .modal-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
     .modal-actions .btn { font-size: 13px; padding: 12px 24px; }
@@ -500,17 +519,13 @@
       display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
       margin-top: 3rem; align-items: start;
     }
-    .contact-text p {
-      color: var(--text-secondary); font-weight: 300;
-      line-height: 1.8; margin-bottom: 2rem;
-    }
+    .contact-text p { color: var(--text-secondary); font-weight: 300; line-height: 1.8; margin-bottom: 2rem; }
     .contact-links { display: flex; flex-direction: column; gap: 1rem; }
     .contact-link {
       display: flex; align-items: center; gap: 14px;
       padding: 1rem 1.25rem; border-radius: 14px;
       background: var(--bg-card); border: 1px solid var(--border-subtle);
-      text-decoration: none; color: var(--text-primary);
-      transition: all 0.25s;
+      text-decoration: none; color: var(--text-primary); transition: all 0.25s;
     }
     .contact-link:hover { border-color: var(--border); transform: translateX(4px); }
     .contact-link-icon {
@@ -521,10 +536,8 @@
     }
     .contact-link-text { font-size: 14px; font-weight: 500; }
     .contact-link-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-
     .contact-visual {
-      display: flex; align-items: center; justify-content: center;
-      position: relative;
+      display: flex; align-items: center; justify-content: center; position: relative;
     }
     .contact-glow {
       width: 300px; height: 300px; border-radius: 50%;
@@ -532,11 +545,9 @@
       filter: blur(40px); animation: floatGlow 6s ease-in-out infinite;
     }
     .contact-icon-large {
-      position: absolute;
-      width: 120px; height: 120px; border-radius: 24px;
+      position: absolute; width: 120px; height: 120px; border-radius: 24px;
       background: var(--bg-card); border: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--aws-orange);
+      display: flex; align-items: center; justify-content: center; color: var(--aws-orange);
     }
 
     footer {
@@ -571,7 +582,10 @@
       .about-stats { grid-template-columns: 1fr 1fr; }
       .skills-grid { grid-template-columns: 1fr; }
       .modal { max-height: 85vh; }
-      .modal-image-wrap { height: 200px; }
+      .carousel-wrap { height: 220px; }
+      .carousel-btn { width: 34px; height: 34px; opacity: 1; }
+      .carousel-prev { left: 8px; }
+      .carousel-next { right: 8px; }
       .modal-body { padding: 1.5rem; }
       .hero-name { letter-spacing: -1px; }
       .cert-card { flex-direction: column; text-align: center; padding: 2rem; }
@@ -617,9 +631,7 @@
         <span class="dot"></span>
         AWS Cloud Portfolio
       </div>
-      <h1 class="hero-name">
-        Shiven<br><span class="highlight">Gandhi</span>
-      </h1>
+      <h1 class="hero-name">Shiven<br><span class="highlight">Gandhi</span></h1>
       <p class="hero-tagline">
         Building real-world cloud infrastructure on AWS — from static websites to automated multi-environment deployments. Learning by building, one project at a time.
       </p>
@@ -648,33 +660,15 @@
       </div>
       <div class="about-grid">
         <div class="about-text reveal reveal-delay-1">
-          <p>
-            I'm Shiven Gandhi — a cloud enthusiast focused entirely on AWS. Every project in this portfolio started as a blank console and ended as production-grade infrastructure.
-          </p>
-          <p>
-            My approach is simple: understand the fundamentals, build it by hand, then automate it. From hosting my first static site on S3 to provisioning multi-environment setups with Terraform, each project here represents a deliberate step deeper into the cloud.
-          </p>
-          <p>
-            I believe the best way to learn cloud is to ship real projects — not just follow tutorials.
-          </p>
+          <p>I'm Shiven Gandhi — a cloud enthusiast focused entirely on AWS. Every project in this portfolio started as a blank console and ended as production-grade infrastructure.</p>
+          <p>My approach is simple: understand the fundamentals, build it by hand, then automate it. From hosting my first static site on S3 to provisioning multi-environment setups with Terraform, each project here represents a deliberate step deeper into the cloud.</p>
+          <p>I believe the best way to learn cloud is to ship real projects — not just follow tutorials.</p>
         </div>
         <div class="about-stats reveal reveal-delay-2">
-          <div class="stat-card">
-            <div class="stat-number">6</div>
-            <div class="stat-label">AWS Projects</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number">15+</div>
-            <div class="stat-label">AWS Services</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number">100%</div>
-            <div class="stat-label">AWS Focused</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-number">1</div>
-            <div class="stat-label">AWS Certification</div>
-          </div>
+          <div class="stat-card"><div class="stat-number">6</div><div class="stat-label">AWS Projects</div></div>
+          <div class="stat-card"><div class="stat-number">15+</div><div class="stat-label">AWS Services</div></div>
+          <div class="stat-card"><div class="stat-number">100%</div><div class="stat-label">AWS Focused</div></div>
+          <div class="stat-card"><div class="stat-number">1</div><div class="stat-label">AWS Certification</div></div>
         </div>
       </div>
     </div>
@@ -700,7 +694,6 @@
       </div>
       <a href="https://www.credly.com/badges/d718e2b4-0486-4c21-972c-0be8ab2785c6/public_url" target="_blank" rel="noopener noreferrer" class="cert-card reveal reveal-delay-1">
         <div class="cert-badge-wrap">
-          <!-- Inline SVG badge icon — no external image needed, no hotlinking issues -->
           <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="50" cy="50" r="45" stroke="#FF9900" stroke-width="2" opacity="0.3"/>
             <circle cx="50" cy="50" r="35" stroke="#FF9900" stroke-width="1.5" opacity="0.15"/>
@@ -728,7 +721,7 @@
       <div class="reveal">
         <div class="section-label">Projects</div>
         <h2 class="section-title">What I've built.</h2>
-        <p class="section-desc">Click any project to see the full description and screenshots.</p>
+        <p class="section-desc">Click any project to browse screenshots and full details.</p>
       </div>
       <div class="projects-grid" id="projectsGrid"></div>
     </div>
@@ -742,36 +735,25 @@
       </div>
       <div class="contact-grid">
         <div class="contact-text reveal reveal-delay-1">
-          <p>
-            I'm always open to connecting with fellow cloud engineers, receiving feedback on my projects, or exploring new opportunities in the AWS ecosystem.
-          </p>
+          <p>I'm always open to connecting with fellow cloud engineers, receiving feedback on my projects, or exploring new opportunities in the AWS ecosystem.</p>
           <div class="contact-links">
             <a href="https://github.com/Shiven184" target="_blank" rel="noopener noreferrer" class="contact-link">
               <div class="contact-link-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
               </div>
-              <div>
-                <div class="contact-link-text">GitHub</div>
-                <div class="contact-link-sub">View all project source code</div>
-              </div>
+              <div><div class="contact-link-text">GitHub</div><div class="contact-link-sub">View all project source code</div></div>
             </a>
             <a href="mailto:shivengandhi@outlook.com" class="contact-link">
               <div class="contact-link-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
               </div>
-              <div>
-                <div class="contact-link-text">shivengandhi@outlook.com</div>
-                <div class="contact-link-sub">Drop me an email anytime</div>
-              </div>
+              <div><div class="contact-link-text">shivengandhi@outlook.com</div><div class="contact-link-sub">Drop me an email anytime</div></div>
             </a>
             <a href="https://www.linkedin.com/in/shiven-gandhi/" target="_blank" rel="noopener noreferrer" class="contact-link">
               <div class="contact-link-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
               </div>
-              <div>
-                <div class="contact-link-text">LinkedIn</div>
-                <div class="contact-link-sub">Let's connect professionally</div>
-              </div>
+              <div><div class="contact-link-text">LinkedIn</div><div class="contact-link-sub">Let's connect professionally</div></div>
             </a>
           </div>
         </div>
@@ -791,11 +773,18 @@
 
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal" id="modal">
-      <div class="modal-image-wrap" id="modalImageWrap">
-        <img class="modal-image" id="modalImage" src="" alt="Project Screenshot">
-        <div class="img-fallback">
+      <div class="carousel-wrap" id="carouselWrap">
+        <button class="carousel-btn carousel-prev" id="carouselPrev" aria-label="Previous image">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="carousel-btn carousel-next" id="carouselNext" aria-label="Next image">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+        <div class="carousel-dots" id="carouselDots"></div>
+        <div class="carousel-counter" id="carouselCounter"></div>
+        <div class="carousel-fallback">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          <span>Screenshot not found</span>
+          <span>Screenshots not found</span>
           <span class="debug-path" id="debugPath"></span>
         </div>
       </div>
@@ -820,25 +809,9 @@
   </div>
 
   <script>
-    // ╔══════════════════════════════════════════════════════════════════╗
-    // ║  YOUR CLOUDFRONT DOMAIN                                        ║
-    // ║  This is prepended to every image path to form the full URL.   ║
-    // ║  No trailing slash needed.                                     ║
-    // ╚══════════════════════════════════════════════════════════════════╝
     const BASE_URL = "https://d3857tjb3wyic9.cloudfront.net";
 
-    // ── Project Data ──
-    // Image paths match your S3 folder structure:
-    //   Screenshots/project-1-cloudfront/1.png
-    //   Screenshots/project-2-serverless-api/2.png
-    //   etc.
-    //
-    // ⚠️  I can only see folder names for project-1 and project-2
-    //     clearly from your screenshot. If the other folder names
-    //     don't match, update the "image" values below to match
-    //     your exact S3 folder names.
-    //
-    //     To check: open each folder in S3 and note the exact name.
+    // ── All folder names and image counts confirmed from S3 ──
     const projects = [
       {
         id: 1,
@@ -847,7 +820,8 @@
         shortDesc: "Hosted a static website on S3 with CloudFront CDN, custom domain, and SSL.",
         fullDesc: "Deployed a fully static portfolio website on Amazon S3 with CloudFront as the CDN layer for low-latency global delivery. Configured a custom domain through Route 53 with SSL certificates from AWS Certificate Manager (ACM). Implemented proper S3 bucket policies, Origin Access Control (OAC) to restrict direct S3 access, and optimized CloudFront cache behaviors for performance and security.",
         tags: ["S3", "CloudFront", "Route 53", "ACM"],
-        image: "Screenshots/project-1-cloudfront/1.png",
+        folder: "project-1-cloudfront",
+        count: 3,
         github: "https://github.com/Shiven184/aws-cloud-portfolio"
       },
       {
@@ -857,7 +831,8 @@
         shortDesc: "RESTful task management API built with Lambda, API Gateway, and DynamoDB.",
         fullDesc: "Built a fully serverless RESTful API for task management using AWS Lambda for compute, Amazon API Gateway for routing, and DynamoDB as the NoSQL database. Implemented CRUD operations with proper request validation, error handling, and CORS configuration. The entire backend runs without any servers to manage, scaling automatically with demand while keeping costs near zero for low traffic.",
         tags: ["Lambda", "API Gateway", "DynamoDB"],
-        image: "Screenshots/project-2-serverless-api/2.png",
+        folder: "project-2-serverless-api",
+        count: 8,
         github: "https://github.com/Shiven184/serverless-task-api"
       },
       {
@@ -867,7 +842,8 @@
         shortDesc: "Multi-AZ web application with EC2, ALB, Auto Scaling, and RDS.",
         fullDesc: "Designed and deployed a highly available web application architecture spanning multiple Availability Zones. Used EC2 instances behind an Application Load Balancer (ALB) with Auto Scaling Groups to handle traffic spikes. Backed the application with a Multi-AZ RDS database for data durability. Configured proper security groups, target groups, and health checks to ensure seamless failover and minimal downtime.",
         tags: ["EC2", "ALB", "Auto Scaling", "RDS", "Multi-AZ"],
-        image: "Screenshots/project-3-ha-webapp/3.png",
+        folder: "project-3-three-tier",
+        count: 5,
         github: "https://github.com/Shiven184/ha-three-tier-webapp"
       },
       {
@@ -877,7 +853,8 @@
         shortDesc: "Automated build and deploy pipeline using AWS Code suite services.",
         fullDesc: "Built a complete CI/CD pipeline using AWS CodeCommit for source control, CodeBuild for automated testing and building, CodeDeploy for deployment to EC2 instances, and CodePipeline to orchestrate the entire workflow. Configured build specifications, deployment strategies (rolling updates), and notification triggers so that every code push automatically goes through build, test, and deploy stages without manual intervention.",
         tags: ["CodeCommit", "CodeBuild", "CodeDeploy", "CodePipeline"],
-        image: "Screenshots/project-4-cicd-pipeline/4.png",
+        folder: "project-4-cicd",
+        count: 8,
         github: "https://github.com/Shiven184/cicd-pipeline"
       },
       {
@@ -887,7 +864,8 @@
         shortDesc: "IaC with Terraform provisioning VPC and EC2 across dev, staging, and prod.",
         fullDesc: "Implemented Infrastructure as Code using Terraform to provision complete AWS environments for development, staging, and production. Each environment includes its own VPC with public and private subnets, security groups, EC2 instances, and S3 buckets. Used an S3 backend for remote state management with state locking via DynamoDB. Structured the code with reusable modules, variables, and workspaces to keep environments consistent yet isolated.",
         tags: ["Terraform", "VPC", "EC2", "S3 Backend", "DynamoDB"],
-        image: "Screenshots/project-5-terraform-multi-env/5.png",
+        folder: "project-5-terraform",
+        count: 6,
         github: "https://github.com/Shiven184/terraform-multi-env"
       },
       {
@@ -897,17 +875,21 @@
         shortDesc: "Automated cost monitoring and optimization with Cost Explorer, Budgets, and Lambda.",
         fullDesc: "Built an automated cloud cost monitoring and optimization system using AWS Cost Explorer APIs, Budgets for alerting thresholds, Lambda functions for analysis logic, and SNS for real-time notifications. The solution identifies idle resources, tracks spending anomalies against set budgets, and sends actionable alerts via email. Designed to help prevent bill shock and encourage cost-conscious architecture decisions across all projects.",
         tags: ["Cost Explorer", "Budgets", "Lambda", "SNS"],
-        image: "Screenshots/project-6-cost-optimizer/6.png",
+        folder: "project-6-cost-optimizer",
+        count: 5,
         github: "https://github.com/Shiven184/cloud-cost-optimizer"
       }
     ];
 
-    // ── Build full image URL ──
-    function getImageUrl(path) {
-      return BASE_URL.replace(/\/+$/, '') + '/' + path.replace(/^\/+/, '');
+    function getProjectImages(project) {
+      const images = [];
+      const base = BASE_URL.replace(/\/+$/, '') + '/Screenshots/' + project.folder + '/';
+      for (let i = 1; i <= project.count; i++) {
+        images.push(base + i + '.png');
+      }
+      return images;
     }
 
-    // ── Skills Data ──
     const skillCategories = [
       { title: "Compute", tags: ["EC2", "Lambda", "Auto Scaling"] },
       { title: "Storage", tags: ["S3", "EBS", "EFS"] },
@@ -919,7 +901,6 @@
       { title: "Security", tags: ["IAM", "ACM", "OAC", "Security Groups"] }
     ];
 
-    // ── Render Skills ──
     function renderSkills() {
       const grid = document.getElementById('skillsGrid');
       grid.innerHTML = skillCategories.map((cat, i) => `
@@ -932,7 +913,6 @@
       `).join('');
     }
 
-    // ── Render Projects ──
     function renderProjects() {
       const grid = document.getElementById('projectsGrid');
       grid.innerHTML = projects.map((p, i) => {
@@ -956,29 +936,64 @@
       }).join('');
     }
 
-    // ── Modal Logic ──
+    let currentSlide = 0;
+    let currentImages = [];
+    let failedCount = 0;
+
     const overlay = document.getElementById('modalOverlay');
-    const modalImageWrap = document.getElementById('modalImageWrap');
+    const carouselWrap = document.getElementById('carouselWrap');
+    const carouselDots = document.getElementById('carouselDots');
+    const carouselCounter = document.getElementById('carouselCounter');
+    const prevBtn = document.getElementById('carouselPrev');
+    const nextBtn = document.getElementById('carouselNext');
+
+    function showSlide(index) {
+      const imgs = carouselWrap.querySelectorAll('img');
+      const dots = carouselDots.querySelectorAll('.carousel-dot');
+      imgs.forEach((img, i) => img.classList.toggle('active', i === index));
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+      prevBtn.disabled = (index === 0);
+      nextBtn.disabled = (index === imgs.length - 1);
+      carouselCounter.textContent = (index + 1) + ' / ' + imgs.length;
+      currentSlide = index;
+    }
+
+    function nextSlide() { if (currentSlide < currentImages.length - 1) showSlide(currentSlide + 1); }
+    function prevSlide() { if (currentSlide > 0) showSlide(currentSlide - 1); }
+
+    prevBtn.addEventListener('click', prevSlide);
+    nextBtn.addEventListener('click', nextSlide);
 
     function openModal(index) {
       const p = projects[index];
-      const fullUrl = getImageUrl(p.image);
-      const img = document.getElementById('modalImage');
-      img.src = fullUrl;
-      img.alt = p.title + ' screenshot';
+      currentImages = getProjectImages(p);
+      currentSlide = 0;
+      failedCount = 0;
 
-      // Show the attempted path for debugging
-      document.getElementById('debugPath').textContent = 'Tried: ' + fullUrl;
+      carouselWrap.querySelectorAll('img').forEach(img => img.remove());
+      carouselWrap.classList.remove('all-failed');
 
-      // Reset error state
-      modalImageWrap.classList.remove('error');
+      currentImages.forEach((url, i) => {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = p.title + ' screenshot ' + (i + 1);
+        img.onerror = function() {
+          failedCount++;
+          console.error('Failed to load:', url);
+          if (failedCount === currentImages.length) {
+            carouselWrap.classList.add('all-failed');
+            document.getElementById('debugPath').textContent = 'Tried: ' + currentImages[0];
+          }
+        };
+        if (i === 0) img.classList.add('active');
+        carouselWrap.insertBefore(img, carouselWrap.querySelector('.carousel-btn'));
+      });
 
-      // Handle image load error
-      img.onerror = function() {
-        modalImageWrap.classList.add('error');
-        console.error('Image failed to load:', fullUrl);
-        console.info('Test this URL directly in your browser to verify the file exists.');
-      };
+      carouselDots.innerHTML = currentImages.map((_, i) =>
+        `<button class="carousel-dot${i === 0 ? ' active' : ''}" onclick="showSlide(${i})" aria-label="Image ${i + 1}"></button>`
+      ).join('');
+
+      showSlide(0);
 
       document.getElementById('modalTitle').textContent = p.title;
       document.getElementById('modalDesc').textContent = p.fullDesc;
@@ -986,6 +1001,7 @@
       document.getElementById('modalTags').innerHTML = p.tags.map(t =>
         `<span class="modal-tag">${t}</span>`
       ).join('');
+
       overlay.classList.add('open');
       document.body.style.overflow = 'hidden';
     }
@@ -995,22 +1011,28 @@
       document.body.style.overflow = '';
     }
 
-    overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) closeModal();
-    });
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
     document.getElementById('modalClose').addEventListener('click', closeModal);
+
     document.addEventListener('keydown', (e) => {
+      if (!overlay.classList.contains('open')) return;
       if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowRight') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
     });
 
-    // ── Navigation ──
+    let touchStartX = 0;
+    carouselWrap.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+    carouselWrap.addEventListener('touchend', (e) => {
+      const diff = touchStartX - e.changedTouches[0].screenX;
+      if (Math.abs(diff) > 50) { diff > 0 ? nextSlide() : prevSlide(); }
+    }, { passive: true });
+
     const navbar = document.getElementById('navbar');
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
 
-    window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 50);
-    });
+    window.addEventListener('scroll', () => { navbar.classList.toggle('scrolled', window.scrollY > 50); });
 
     hamburger.addEventListener('click', () => {
       hamburger.classList.toggle('active');
@@ -1024,27 +1046,16 @@
       document.body.style.overflow = '';
     }
 
-    // ── Scroll Reveal ──
     function initReveal() {
       const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
       }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
       document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     }
 
-    // ── Init ──
     renderSkills();
     renderProjects();
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        initReveal();
-      });
-    });
+    requestAnimationFrame(() => { requestAnimationFrame(() => { initReveal(); }); });
   </script>
 </body>
 </html>
