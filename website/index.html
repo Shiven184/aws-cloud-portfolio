@@ -860,10 +860,10 @@
       {
         id: 5,
         title: "Terraform Multi-Environment",
-        difficulty: "Advanced",
-        shortDesc: "IaC with Terraform provisioning VPC and EC2 across dev, staging, and prod.",
-        fullDesc: "Implemented Infrastructure as Code using Terraform to provision complete AWS environments for development, staging, and production. Each environment includes its own VPC with public and private subnets, security groups, EC2 instances, and S3 buckets. Used an S3 backend for remote state management with state locking via DynamoDB. Structured the code with reusable modules, variables, and workspaces to keep environments consistent yet isolated.",
-        tags: ["Terraform", "VPC", "EC2", "S3 Backend", "DynamoDB"],
+        difficulty: "Intermediate",
+        shortDesc: "Used Terraform to automate provisioning of VPCs and EC2 across separate environments.",
+        fullDesc: "Applied Infrastructure as Code principles using Terraform to automate the deployment of AWS resources. Provisioned distinct VPCs with public and private subnets, security groups, and EC2 instances for separate environments. Utilized an S3 backend for remote state storage and organized the code using basic variables and modules to make the infrastructure easy to replicate, update, and manage across different project stages.",
+        tags: ["Terraform", "VPC", "EC2", "S3 Backend"],
         folder: "project-5-terraform",
         count: 6,
         github: "https://github.com/Shiven184/terraform-multi-env"
@@ -871,10 +871,10 @@
       {
         id: 6,
         title: "Cloud Cost Optimizer",
-        difficulty: "Advanced",
-        shortDesc: "Automated cost monitoring and optimization with Cost Explorer, Budgets, and Lambda.",
-        fullDesc: "Built an automated cloud cost monitoring and optimization system using AWS Cost Explorer APIs, Budgets for alerting thresholds, Lambda functions for analysis logic, and SNS for real-time notifications. The solution identifies idle resources, tracks spending anomalies against set budgets, and sends actionable alerts via email. Designed to help prevent bill shock and encourage cost-conscious architecture decisions across all projects.",
-        tags: ["Cost Explorer", "Budgets", "Lambda", "SNS"],
+        difficulty: "Intermediate",
+        shortDesc: "Automated cost tracking and budget alerts using AWS Budgets, Lambda, and SNS.",
+        fullDesc: "Created an automated cost monitoring setup to track AWS spending using AWS Budgets. Configured Lambda functions to process basic cost data and SNS topics to send email notifications when spending approaches predefined thresholds. This project serves as a practical introduction to cloud financial management, demonstrating how to use event-driven architecture to maintain awareness of infrastructure costs.",
+        tags: ["Budgets", "Lambda", "SNS"],
         folder: "project-6-cost-optimizer",
         count: 5,
         github: "https://github.com/Shiven184/cloud-cost-optimizer"
@@ -997,11 +997,9 @@
 
       document.getElementById('modalTitle').textContent = p.title;
       document.getElementById('modalDesc').textContent = p.fullDesc;
+      document.getElementById('modalTags').innerHTML = p.tags.map(t => `<span class="modal-tag">${t}</span>`).join('');
       document.getElementById('modalGithub').href = p.github;
-      document.getElementById('modalTags').innerHTML = p.tags.map(t =>
-        `<span class="modal-tag">${t}</span>`
-      ).join('');
-
+      
       overlay.classList.add('open');
       document.body.style.overflow = 'hidden';
     }
@@ -1011,51 +1009,57 @@
       document.body.style.overflow = '';
     }
 
-    overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeModal();
+    });
+
     document.getElementById('modalClose').addEventListener('click', closeModal);
 
     document.addEventListener('keydown', (e) => {
-      if (!overlay.classList.contains('open')) return;
       if (e.key === 'Escape') closeModal();
-      if (e.key === 'ArrowRight') nextSlide();
-      if (e.key === 'ArrowLeft') prevSlide();
+      if (e.key === 'ArrowRight' && overlay.classList.contains('open')) nextSlide();
+      if (e.key === 'ArrowLeft' && overlay.classList.contains('open')) prevSlide();
     });
 
-    let touchStartX = 0;
-    carouselWrap.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
-    carouselWrap.addEventListener('touchend', (e) => {
-      const diff = touchStartX - e.changedTouches[0].screenX;
-      if (Math.abs(diff) > 50) { diff > 0 ? nextSlide() : prevSlide(); }
-    }, { passive: true });
-
-    const navbar = document.getElementById('navbar');
+    // Mobile menu
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
-
-    window.addEventListener('scroll', () => { navbar.classList.toggle('scrolled', window.scrollY > 50); });
 
     hamburger.addEventListener('click', () => {
       hamburger.classList.toggle('active');
       mobileMenu.classList.toggle('open');
-      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
     });
 
     function closeMobile() {
       hamburger.classList.remove('active');
       mobileMenu.classList.remove('open');
-      document.body.style.overflow = '';
     }
+
+    // Scroll effects
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Reveal on scroll
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
 
     function initReveal() {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+      document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
     }
 
+    // Init
     renderSkills();
     renderProjects();
-    requestAnimationFrame(() => { requestAnimationFrame(() => { initReveal(); }); });
+    initReveal();
+    // Re-observe dynamically added reveals
+    setTimeout(() => initReveal(), 100);
   </script>
 </body>
 </html>
